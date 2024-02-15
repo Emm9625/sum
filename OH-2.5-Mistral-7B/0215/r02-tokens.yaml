@@ -1,0 +1,112 @@
+base_model: teknium/OpenHermes-2.5-Mistral-7B
+model_type: MistralForCausalLM
+tokenizer_type: LlamaTokenizer
+tokenizer_config: teknium/OpenHermes-2.5-Mistral-7B
+special_tokens:
+  bos_token: "<|im_start|>"
+  eos_token: "<|im_end|>"
+  unk_token: "<unk>"
+tokens: # these are delimiters
+  - "<|im_start|>"
+  - "<|im_end|>"
+is_mistral_derived_model: true
+load_in_8bit: true
+load_in_4bit: false
+strict: false
+
+hf_use_auth_token: true # boolean
+# push checkpoints to hub
+# repo path to push finetuned model
+hub_model_id: Emm9625/OH2.5-M7B-cod0215-r02-test
+hub_strategy: checkpoint
+save_safetensors: true
+
+datasets:
+  - path: Emm9625/cod-0215
+    # data_files: articles_train.jsonl
+    type: sharegpt
+    conversation: chatml
+chat_template: chatml
+default_system_message: ""
+dataset_prepared_path: /workspace/last_run_prepared
+val_set_size: 0
+output_dir: /workspace/OH2.5-M7B-cod0215-r02-test
+
+adapter: lora
+lora_model_dir:
+
+sequence_len: 8192
+sample_packing: true
+pad_to_sequence_len: true
+
+lora_r: 32
+lora_alpha: 16
+lora_dropout: 0.05
+lora_target_linear: true
+lora_fan_in_fan_out:
+lora_target_modules:
+  - gate_proj
+  - down_proj
+  - up_proj
+  - q_proj
+  - v_proj
+  - k_proj
+  - o_proj
+lora_modules_to_save:
+ - embed_tokens
+ - lm_head
+ 
+wandb_project: OH2.5-M7B-cod0215-r02-test
+wandb_entity:
+wandb_watch:
+wandb_name:
+wandb_log_model:
+
+#A100-80GB 63/80GB used 
+gradient_accumulation_steps: 2
+micro_batch_size: 4
+#A6000
+# gradient_accumulation_steps: 4
+# micro_batch_size: 2
+
+num_epochs: 3
+optimizer: paged_adamw_8bit
+lr_scheduler: cosine
+learning_rate: 0.0002
+# Augmentation techniques
+# NEFT https://arxiv.org/abs/2310.05914, set this to a number (paper default is 5) to add noise to embeddings
+# currently only supported on Llama and Mistral
+neftune_noise_alpha: 5
+
+train_on_inputs: false
+group_by_length: false
+bf16: auto
+fp16:
+tf32: false
+
+gradient_checkpointing: true
+early_stopping_patience:
+resume_from_checkpoint:
+local_rank:
+logging_steps: 1
+xformers_attention:
+flash_attention: true
+
+loss_watchdog_threshold: 5.0
+loss_watchdog_patience: 3
+
+# warmup_steps: 3
+warmup_ratio: 0.025
+evals_per_epoch: 0
+eval_table_size:
+eval_max_new_tokens: 128
+saves_per_epoch: 20
+debug:
+deepspeed:
+weight_decay: 0.0
+fsdp:
+fsdp_config:
+# special_tokens:
+#   bos_token: "<s>"
+#   eos_token: "</s>"
+#   unk_token: "<unk>"
