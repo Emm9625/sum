@@ -103,10 +103,10 @@ tf32: false
 gradient_checkpointing: true
 flash_attention: true
 warmup_ratio: 0.025
-evals_per_epoch: 2
+evals_per_epoch: 1
 eval_table_size: 0
 eval_max_new_tokens: 0
-saves_per_epoch: 5
+saves_per_epoch: 1
 save_safetensors: true
 logging_steps: 1
 weight_decay: 0.0
