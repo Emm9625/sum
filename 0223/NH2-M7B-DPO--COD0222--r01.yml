@@ -91,8 +91,8 @@ gradient_checkpointing: true
 flash_attention: true
 warmup_ratio: 0.025
 evals_per_epoch: 2
-# eval_table_size: 0
-# eval_max_new_tokens: 128
+eval_table_size: 0
+eval_max_new_tokens: 0
 saves_per_epoch: 20
 logging_steps: 1
 weight_decay: 0.0

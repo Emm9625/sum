@@ -1,7 +1,7 @@
-base_model: teknium/OpenHermes-2.5-Mistral-7B
+base_model: NousResearch/Nous-Hermes-2-Mistral-7B-DPO
 model_type: MistralForCausalLM
 tokenizer_type: LlamaTokenizer
-tokenizer_config: teknium/OpenHermes-2.5-Mistral-7B
+tokenizer_config: NousResearch/Nous-Hermes-2-Mistral-7B-DPO
 special_tokens:
   bos_token: "<s>"
   eos_token: "<|im_end|>"
@@ -17,24 +17,34 @@ strict: false
 hf_use_auth_token: true # boolean
 # push checkpoints to hub
 # repo path to push finetuned model
-hub_model_id: Emm9625/OH2.5-M7B-cod0215-r01-test
+hub_model_id: Emm9625/Emm9625/NH2-M7B-DPO_COD0222_r01-lora
 hub_strategy: checkpoint
 
 datasets:
-  - path: Emm9625/cod-0215
+  - path: Emm9625/COD-0222
     # data_files: articles_train.jsonl
     type: sharegpt
+    train_on_split: train
     conversation: chatml
+
+test_datasets:
+  - path: Emm9625/COD-0222
+    # You need to specify a split. For "json" datasets the default split is called "train".
+    split: test
+    shards: 10 # Optional[int] number of shards to split data into
+    type: sharegpt
+dataset_keep_in_memory: True
+push_dataset_to_hub: Emm9625 # repo path
 chat_template: chatml
 default_system_message: ""
 dataset_prepared_path: /workspace/last_run_prepared
 val_set_size: 0
-output_dir: /workspace/OH2.5-M7B-cod0215-r01-test
+output_dir: /workspace/Emm9625/NH2-M7B-DPO_COD0222_r01-lora
 
 adapter: lora
 lora_model_dir:
 
-sequence_len: 8192
+sequence_len: 4096
 sample_packing: true
 pad_to_sequence_len: true
 
@@ -55,15 +65,15 @@ lora_modules_to_save:
  - embed_tokens
  - lm_head
  
-wandb_project: OH2.5-M7B-cod0215-r01-test
+wandb_project: NH2-M7B-DPO_COD0222_-lora
 wandb_entity:
 wandb_watch:
-wandb_name:
+wandb_name: test-01
 wandb_log_model:
 
 #A100-80GB 63/80GB used 
 gradient_accumulation_steps: 2
-micro_batch_size: 4
+micro_batch_size: 8
 #A6000
 # gradient_accumulation_steps: 4
 # micro_batch_size: 2
@@ -96,8 +106,8 @@ loss_watchdog_patience: 3
 
 # warmup_steps: 3
 warmup_ratio: 0.025
-evals_per_epoch: 0
-eval_table_size:
+evals_per_epoch: 2
+eval_table_size: 16
 eval_max_new_tokens: 128
 saves_per_epoch: 20
 debug:
