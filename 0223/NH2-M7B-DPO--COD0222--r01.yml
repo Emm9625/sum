@@ -1,0 +1,99 @@
+base_model: NousResearch/Nous-Hermes-2-Mistral-7B-DPO
+model_type: MistralForCausalLM
+tokenizer_type: LlamaTokenizer
+tokenizer_config: NousResearch/Nous-Hermes-2-Mistral-7B-DPO
+special_tokens:
+  bos_token: "<s>"
+  eos_token: "<|im_end|>"
+  unk_token: "<unk>"
+tokens: # these are delimiters
+  - "<|im_start|>"
+  - "<|im_end|>"
+is_mistral_derived_model: true
+
+# Model Precision and Loading
+load_in_8bit: true
+load_in_4bit: false
+strict: false
+
+# Hugging Face Hub Settings
+hf_use_auth_token: true
+hub_model_id: Emm9625/NH2-M7B-DPO_COD0222_r01-lora
+hub_strategy: checkpoint
+
+# Datasets Configuration
+datasets:
+  - path: Emm9625/COD-0222
+    type: sharegpt
+    train_on_split: train
+    conversation: chatml
+
+# Testing Datasets Configuration
+test_datasets:
+  - path: Emm9625/COD-0222
+    split: test
+    shards: 10
+    type: sharegpt
+
+# Data Handling and Memory Management
+dataset_keep_in_memory: True
+push_dataset_to_hub: Emm9625
+chat_template: chatml
+default_system_message: ""
+dataset_prepared_path: /workspace/last_run_prepared
+val_set_size: 0
+output_dir: /workspace/Emm9625/NH2-M7B-DPO_COD0222_r01-lora
+
+# Adapter and LoRA Settings
+adapter: lora
+lora_model_dir:
+sequence_len: 4096
+sample_packing: true
+pad_to_sequence_len: true
+lora_r: 32
+lora_alpha: 16
+lora_dropout: 0.05
+lora_target_linear: true
+lora_fan_in_fan_out:
+lora_target_modules:
+  - gate_proj
+  - down_proj
+  - up_proj
+  - q_proj
+  - v_proj
+  - k_proj
+  - o_proj
+lora_modules_to_save:
+  - embed_tokens
+  - lm_head
+
+# Weights & Biases Configuration
+wandb_project: NH2-M7B-DPO_COD0222_-lora
+wandb_entity:
+wandb_watch:
+wandb_name: test-01
+wandb_log_model:
+
+# Training Configuration
+gradient_accumulation_steps: 2
+micro_batch_size: 8
+num_epochs: 10
+optimizer: paged_adamw_8bit
+lr_scheduler: cosine
+learning_rate: 0.0002
+neftune_noise_alpha: 5
+train_on_inputs: false
+group_by_length: false
+bf16: auto
+tf32: false
+gradient_checkpointing: true
+flash_attention: true
+warmup_ratio: 0.025
+evals_per_epoch: 2
+eval_table_size: 16
+eval_max_new_tokens: 128
+saves_per_epoch: 20
+logging_steps: 1
+weight_decay: 0.0
+loss_watchdog_threshold: 5.0
+loss_watchdog_patience: 3
