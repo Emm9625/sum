@@ -24,7 +24,7 @@ hub_strategy: checkpoint
 #Datasets Configuration
 datasets:
   - path: Emm9625/COD-0223-pretokenized-train
-    # type: sharegpt
+    type: sharegpt
     train_on_split: train
     conversation: chatml
 
@@ -33,7 +33,7 @@ test_datasets:
   - path: Emm9625/COD-0223-pretokenized-test
     split: test
     shards: 10
-    # type: sharegpt
+    type: sharegpt
 
 # datasets:
 #   - path: Emm9625/COD-0223-pretokenized-train
