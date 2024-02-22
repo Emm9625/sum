@@ -97,7 +97,7 @@ wandb_log_model:
 
 # Training Configuration
 gradient_accumulation_steps: 2
-micro_batch_size: 16
+micro_batch_size: 8
 num_epochs: 10
 optimizer: paged_adamw_8bit
 lr_scheduler: cosine
