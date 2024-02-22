@@ -22,17 +22,29 @@ hub_model_id: Emm9625/NH2-M7B-DPO_COD0222_r01-lora
 hub_strategy: checkpoint
 
 # Datasets Configuration
-datasets:
-  - path: Emm9625/COD-0223-Sharegpt
+# datasets:
+#   - path: Emm9625/COD-0223-Sharegpt
+#     type: sharegpt
+#     train_on_split: train
+#     conversation: chatml
+
+# # Testing Datasets Configuration
+# test_datasets:
+#   - path: Emm9625/COD-0223-Sharegpt
+#     split: test
+#     shards: 10
+#     type: sharegpt
+
+  datasets:
+  - path: Emm9625/COD-0223-pretokenized-train
     type: sharegpt
-    train_on_split: train
+    # train_on_split: train
     conversation: chatml
 
 # Testing Datasets Configuration
 test_datasets:
-  - path: Emm9625/COD-0223-Sharegpt
-    split: test
-    shards: 10
+  - path: Emm9625/COD-0223-pretokenized-test
+    split: train
     type: sharegpt
 
 # Data Handling and Memory Management
