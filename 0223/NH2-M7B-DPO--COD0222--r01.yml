@@ -26,7 +26,7 @@ datasets:
   - path: Emm9625/COD-0223-pretokenized-train
     # type: sharegpt
     # train_on_split: train
-    conversation: chatml
+    # conversation: chatml
 
 # Testing Datasets Configuration
 test_datasets:
@@ -34,6 +34,7 @@ test_datasets:
     # split: test
     # shards: 10
     # type: sharegpt
+    # conversation: chatml
 
 # datasets:
 #   - path: Emm9625/COD-0223-pretokenized-train
