@@ -52,7 +52,7 @@ dataset_keep_in_memory: True
 push_dataset_to_hub: Emm9625
 chat_template: chatml
 default_system_message: ""
-dataset_prepared_path: /workspace/last_run_prepared
+# dataset_prepared_path: /workspace/last_run_prepared
 val_set_size: 0
 output_dir: /workspace/Emm9625/NH2-M7B-DPO_COD0222_r01-lora
 
