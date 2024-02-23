@@ -1,21 +1,11 @@
-base_model: NousResearch/Nous-Hermes-2-Mistral-7B-DPO
+base_model: mistralai/Mistral-7B-v0.1
 model_type: MistralForCausalLM
 tokenizer_type: LlamaTokenizer
-tokenizer_config: NousResearch/Nous-Hermes-2-Mistral-7B-DPO
+tokenizer_config: mistralai/Mistral-7B-v0.1
 special_tokens:
   bos_token: "<|im_start|>"
   eos_token: "<|im_end|>"
   unk_token: "<unk>"
-# tokens: # these are delimiters
-#   - "<|im_start|>"
-#   - "<|im_end|>"
-# special_tokens:
-#   bos_token: "<s>"
-#   eos_token: "</s>"
-#   unk_token: "<unk>"
-# tokens: # these are delimiters
-#   - "<|im_start|>"
-#   - "<|im_end|>"
 is_mistral_derived_model: true
 
 # Model Precision and Loading
@@ -25,7 +15,7 @@ strict: false
 
 # Hugging Face Hub Settings
 hf_use_auth_token: true
-hub_model_id: Emm9625/NH2-M7B-DPO_COD0222_r01-qlora
+hub_model_id: Emm9625/M7B-0223-Chatml
 hub_strategy: checkpoint
 
 #Datasets Configuration
@@ -34,35 +24,14 @@ datasets:
     type: sharegpt
     train_on_split: train
     conversation: chatml
-
-# Testing Datasets Configuration
-# test_datasets:
-#   - path: Emm9625/COD-0223-Sharegpt
-#     split: test
-#     shards: 10
-#     type: sharegpt
-#     conversation: chatml
-
-# datasets:
-#   - path: Emm9625/COD-0223-pretokenized-train
-#     type: sharegpt
-#     # train_on_split: train
-#     conversation: chatml
-
-# # Testing Datasets Configuration
-# test_datasets:
-#   - path: Emm9625/COD-0223-pretokenized-test
-#     split: train
-#     type: sharegpt
-
 # Data Handling and Memory Management
 dataset_keep_in_memory: True
-push_dataset_to_hub: Emm9625
+# push_dataset_to_hub: Emm9625
 chat_template: chatml
 default_system_message: ""
-# dataset_prepared_path: /workspace/last_run_prepared
+dataset_prepared_path: /workspace/M7B-0223-Chatml/last_run_prepared
 val_set_size: 0
-output_dir: /workspace/Emm9625/NH2-M7B-DPO_COD0222_r01-qlora
+output_dir: /workspace/Emm9625/M7B-0223-CHATML/r01
 
 # Adapter and LoRA Settings
 adapter: qlora
@@ -71,9 +40,9 @@ sequence_len: 4096
 sample_packing: true
 eval_sample_packing: False
 pad_to_sequence_len: true
-lora_r: 32
-lora_alpha: 16
-lora_dropout: 0.05
+lora_r: 64
+lora_alpha: 128
+lora_dropout: 0.00
 lora_target_linear: true
 lora_fan_in_fan_out:
 lora_target_modules:
@@ -91,19 +60,19 @@ lora_modules_to_save:
   - lm_head
 
 # Weights & Biases Configuration
-wandb_project: NH2-M7B-DPO_COD0222_-qlora
+wandb_project: M7B-0223-Chatml-qlora
 wandb_entity:
 wandb_watch:
 wandb_name: test-01
 wandb_log_model:
 
 # Training Configuration
-gradient_accumulation_steps: 2
+gradient_accumulation_steps: 4
 micro_batch_size: 8
-num_epochs: 10
+num_epochs: 4
 optimizer: paged_adamw_8bit
 lr_scheduler: cosine
-learning_rate: 0.0002
+learning_rate: 1e-5 #0.0002
 # neftune_noise_alpha: 5
 train_on_inputs: false
 group_by_length: false
